@@ -5,15 +5,15 @@ A sophisticated hybrid retrieval-augmented generation system combining knowledge
 ## Quick Start
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.9+
 - pip
 
 ### Installation & Setup
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
-   cd <your-repo-name>
+   git clone https://github.com/yeshwanthakula/assignment.git
+   cd assignment
    ```
 
 2. **Install dependencies**
@@ -29,7 +29,7 @@ A sophisticated hybrid retrieval-augmented generation system combining knowledge
 ## Important Notes
 
 ### Guardrails Setup
-⚠️ **Note:** Setting up Guardrails involves some complexity (downloading the model with token). Please refer to this URL for detailed setup instructions: https://www.guardrailsai.com/docs/examples/check_for_pii
+⚠️ **Note:** Setting up Guardrails involves some complexity (downloading the model with token). Please refer to this URL for detailed setup instructions: https://www.guardrailsai.com/docs/examples/check_for_pii and the official page for token https://www.guardrailsai.com/docs
 
 **However, the code will run despite the guardrailing not being fully configured.** The system is designed to gracefully handle missing Guardrails dependencies.
 
@@ -75,6 +75,5 @@ A sophisticated hybrid retrieval-augmented generation system combining knowledge
 After successful installation, check the `architecture.md` file for detailed information about the system design and components.
 
 ## Troubleshooting
-- If you encounter dependency issues, ensure you're using Python 3.8+
-- For Neo4j connection issues, verify your database credentials
+- For Neo4j connection issues, verify your the database name is configured correctly
 - For Guardrails setup, refer to their official documentation linked above
