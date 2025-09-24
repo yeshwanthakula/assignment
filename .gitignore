@@ -1,0 +1,48 @@
+# Environment variables
+.env
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+# PEP 582
+__pypackages__/
+# Environments
+.venv
+env/
+venv/
+
+# mkdocs documentation
+/site
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+

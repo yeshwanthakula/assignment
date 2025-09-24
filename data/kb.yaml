@@ -1,0 +1,40 @@
+company:
+  escalation_policy:
+    p0: "Outage or data-loss risk \u2014 page on-call within 5 minutes."
+    p1: "Multiple customers blocked \u2014 escalate to Incident Manager within 30\
+      \ minutes."
+    p2: "Single-customer degradation \u2014 open Jira and respond within 4 business\
+      \ hours."
+  name: TokuTel
+  pii_policy:
+  - Never echo card numbers or national IDs back to customers.
+  - Mask phone numbers except last 3 digits in transcripts.
+  region_focus:
+  - SG
+  - MY
+  - ID
+  - TH
+  - PH
+  sla:
+    enterprise_response_hours: 4
+    standard_response_hours: 24
+features_matrix:
+  call_recording:
+  - MERANTI-cc-pro
+  sentiment_analysis:
+  - MERANTI-cc-pro
+  sso:
+  - RAINTREE-uc
+  whatsapp_api:
+  - KAPOK-omni-Plus
+pricing_rules:
+  currency: USD
+  discounts:
+  - condition: annual_prepay
+    value_pct: 12
+  - condition: nonprofit
+    value_pct: 15
+  wa_api_quota_tiers:
+    t1: 1000 conv/day
+    t2: 5000 conv/day
+    t3: 20000 conv/day

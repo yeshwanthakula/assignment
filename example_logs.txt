@@ -1,0 +1,213 @@
+
+
+============================================================
+TESTING TOKUTEL RAG SYSTEM
+============================================================
+
+Question: Which plans support call recording?
+--------------------------------------------------
+2025-09-24 15:32:06,885 - query_processor - INFO - Query intent: graph - Question: Which plans support call recording?
+
+
+> Entering new GraphCypherQAChain chain...
+Generated Cypher:
+cypher
+MATCH (p:Plan)-[:SUPPORTS]->(f:Feature)
+WHERE f.name = "call_recording"
+RETURN p.name AS plan_name, p.citation AS citation
+
+Full Context:
+[{'plan_name': 'Meranti CC Pro', 'citation': '[plans.csv#row=5]'}]
+
+> Finished chain.
+Agent:
+The Meranti CC Pro plan supports call recording [plans.csv#row=5].
+
+
+Question: How many plans are available?
+--------------------------------------------------
+2025-09-24 15:32:16,065 - query_processor - INFO - Query intent: graph - Question: How many plans are available?
+
+
+> Entering new GraphCypherQAChain chain...
+Generated Cypher:
+cypher
+MATCH (p:Plan)
+RETURN count(p) AS plan_count
+
+Full Context:
+[{'plan_count': 5}]
+
+> Finished chain.
+Agent:
+We have 5 plans available [filename#location].
+
+
+Question: What customers are in Singapore?
+--------------------------------------------------
+2025-09-24 15:32:18,957 - query_processor - INFO - Query intent: graph - Question: What customers are in Singapore?
+
+
+> Entering new GraphCypherQAChain chain...
+Generated Cypher:
+cypher
+MATCH (c:Customer)
+WHERE c.region = "SG"
+RETURN c.name AS Customer, c.citation AS citation
+
+Full Context:
+[{'Customer': 'BrightMart SG', 'citation': '[transcripts.json#t-001]'}]
+
+> Finished chain.
+Agent:
+Okay, I can help with that!
+
+Based on my information, BrightMart SG is a customer located in <LOCATION> [transcripts.json#t-001].
+
+
+Question: Find plans similar to contact center solutions
+--------------------------------------------------
+2025-09-24 15:32:21,523 - query_processor - INFO - Query intent: vector - Question: Find plans similar to contact center solutions
+2025-09-24 15:32:21,906 - vector_manager - INFO - Retrieved: MERANTI-cc-lite - [plans.csv#row=4] - Score: 1.2001055479049683
+Agent:
+I found one plan that is a contact center solution: Meranti CC Lite. It costs $29.0 and includes <DATE_TIME> and 200 SMS. However, it does not have call recording.
+
+Sources: [plans.csv#row=4]
+
+
+Question: Show me issues about WhatsApp problems
+--------------------------------------------------
+2025-09-24 15:32:23,705 - query_processor - INFO - Query intent: vector - Question: Show me issues about WhatsApp problems
+2025-09-24 15:32:23,810 - vector_manager - INFO - Retrieved: unknown - [transcripts.json#t-002] - Score: 1.0811251401901245
+Agent:
+KayaRide exceeded WhatsApp quota. Kapok Omni Plus includes tier-1 quota only. For higher tiers, contact sales for add-on.
+
+Sources: [transcripts.json#t-002]
+
+
+Question: Recommend a plan for unified communications
+--------------------------------------------------
+2025-09-24 15:32:25,155 - query_processor - INFO - Query intent: vector - Question: Recommend a plan for unified communications
+2025-09-24 15:32:25,281 - vector_manager - INFO - Retrieved: RAINTREE-uc - [plans.csv#row=6] - Score: 1.0690425634384155
+Agent:
+I recommend the Raintree UC plan for unified communications. It costs $49.0 and includes <DATE_TIME> and 800 SMS. SSO is optional.
+
+Sources: [plans.csv#row=6]
+
+
+Question: What plans are good for call centers?
+--------------------------------------------------
+2025-09-24 15:32:26,944 - query_processor - INFO - Query intent: vector - Question: What plans are good for call centers?
+2025-09-24 15:32:27,050 - vector_manager - INFO - Retrieved: MERANTI-cc-pro - [plans.csv#row=5] - Score: 0.9594811797142029
+Agent:
+The Meranti CC Pro plan includes sentiment analysis and call recording, which are features that would be useful for call centers.
+
+Sources: [plans.csv#row=5]
+
+
+Question: Describe the Kapok Omni Plus plan
+--------------------------------------------------
+2025-09-24 15:32:28,363 - query_processor - INFO - Query intent: vector - Question: Describe the Kapok Omni Plus plan
+2025-09-24 15:32:28,463 - vector_manager - INFO - Retrieved: KAPOK-omni-Plus - [plans.csv#row=3] - Score: 0.7872007489204407
+Agent:
+The Kapok Omni Plus plan includes WhatsApp Business API quota tier-1, <DATE_TIME>, and 1000 SMS for $69.0 in the SG region.
+
+Sources: [plans.csv#row=3]
+
+
+Question: Critical data loss reported what to do?
+--------------------------------------------------
+confidence 0.9995937943458557
+Escalation level: P0
+--------------------------------------------------------------------------------
+Trigeering page on-call within 5 minutes .
+
+Question: Bulk email delivery failing what to do?
+--------------------------------------------------
+confidence 0.9993898868560791
+Escalation level: P1
+--------------------------------------------------------------------------------
+escalating to Incident Manager within 30 minutes.
+
+Question: What is the SLA for enterprise hours?
+--------------------------------------------------
+2025-09-24 15:32:29,943 - query_processor - INFO - Query intent: vector - Question: What is the SLA for enterprise hours?
+2025-09-24 15:32:30,044 - vector_manager - INFO - Retrieved: unknown - [kb.yaml#sla] - Score: 0.6784098744392395
+Agent:
+The SLA for enterprise is <DATE_TIME>.
+
+Sources: [kb.yaml#sla]
+
+
+Question: how many plans are there and what do they offer
+--------------------------------------------------
+2025-09-24 15:32:31,108 - query_processor - INFO - Query intent: graph - Question: how many plans are there and what do they offer
+
+
+> Entering new GraphCypherQAChain chain...
+Generated Cypher:
+cypher
+MATCH (p:Plan)
+OPTIONAL MATCH (p)-[:SUPPORTS]->(f:Feature)
+RETURN p.plan_id AS plan_id,
+       p.name AS plan_name,
+       p.region AS region,
+       p.price_usd AS price_usd,
+       p.minutes AS minutes,
+       p.sms AS sms,
+       COLLECT(f.name) AS features,
+       COUNT(p) AS total_plans,
+       p.citation AS citation
+
+Full Context:
+[{'plan_id': 'KAPOK-voice-100', 'plan_name': 'Kapok Voice 100', 'region': 'SG', 'price_usd': 9.9, 'minutes': 100, 'sms': 50, 'features': [], 'total_plans': 1, 'citation': '[plans.csv#row=2]'}, {'plan_id': 'KAPOK-omni-Plus', 'plan_name': 'Kapok Omni Plus', 'region': 'SG', 'price_usd': 69.0, 'minutes': 2000, 'sms': 1000, 'features': ['whatsapp_api'], 'total_plans': 1, 'citation': '[plans.csv#row=3]'}, {'plan_id': 'MERANTI-cc-lite', 'plan_name': 'Meranti CC Lite', 'region': 'MY', 'price_usd': 29.0, 'minutes': 500, 'sms': 200, 'features': [], 'total_plans': 1, 'citation': '[plans.csv#row=4]'}, {'plan_id': 'MERANTI-cc-pro', 'plan_name': 'Meranti CC Pro', 'region': 'MY', 'price_usd': 149.0, 'minutes': 5000, 'sms': 5000, 'features': ['call_recording', 'sentiment_analysis'], 'total_plans': 2, 'citation': '[plans.csv#row=5]'}, {'plan_id': 'RAINTREE-uc', 'plan_name': 'Raintree UC', 'region': 'ID', 'price_usd': 49.0, 'minutes': 1200, 'sms': 800, 'features': ['sso'], 'total_plans': 1, 'citation': '[plans.csv#row=6]'}]
+
+> Finished chain.
+Agent:
+We have a total of 5 plans to choose from!
+
+In <LOCATION> (SG), there's the Kapok Voice 100 for $9.9 USD, which includes <DATE_TIME> and 50 SMS [plans.csv#row=2]. There's also the Kapok Omni Plus at $69.0 USD, offering <DATE_TIME> and 1000 SMS, plus it has WhatsApp API [plans.csv#row=3].
+
+In <LOCATION> (MY), we have the Meranti CC Lite for $29.0 USD with <DATE_TIME> and 200 SMS [plans.csv#row=4]. The Meranti CC Pro costs $149.0 USD and comes with <DATE_TIME> and 5000 SMS, along with call recording and sentiment analysis [plans.csv#row=5].
+
+Lastly, in <LOCATION> (ID), there is the Raintree UC plan for $49.0 USD, providing <DATE_TIME> and 800 SMS, and it includes SSO [plans.csv#row=6].
+
+
+Question: Customer asks to enable call recording on CC Lite. Provide options
+--------------------------------------------------
+2025-09-24 15:32:35,936 - query_processor - INFO - Query intent: vector - Question: Customer asks to enable call recording on CC Lite. Provide options
+2025-09-24 15:32:36,063 - vector_manager - INFO - Retrieved: unknown - [transcripts.json#t-001] - Score: 0.5313045382499695
+Agent:
+I understand you'd like to enable call recording on CC Lite. Unfortunately, call recording is only available on the Pro tier. To enable call recording, you would need to upgrade to the Pro tier.
+
+Sources: [transcripts.json#t-001]
+
+
+Question: Customer exceeded WhatsApp quota; outline next steps.
+--------------------------------------------------
+confidence 0.9916316866874695
+Escalation level: P2
+--------------------------------------------------------------------------------
+open Jira and respond within 4 business hours.
+
+Question: Customer wants SSO support; advise plan choice.
+--------------------------------------------------
+2025-09-24 15:32:37,839 - query_processor - INFO - Query intent: vector - Question: Customer wants SSO support; advise plan choice.
+2025-09-24 15:32:37,935 - vector_manager - INFO - Retrieved: unknown - [transcripts.json#t-003] - Score: 0.940495491027832
+Agent:
+Optional SSO is available on the Raintree UC plan.
+
+Sources: [transcripts.json#t-003]
+
+
+Question: Customer asks about nonprofit discount and annual prepay together.
+--------------------------------------------------
+2025-09-24 15:32:40,052 - query_processor - INFO - Query intent: vector - Question: Customer asks about nonprofit discount and annual prepay together.
+2025-09-24 15:32:40,152 - vector_manager - INFO - Retrieved: unknown - [kb.yaml#pricing_rules] - Score: 0.5685122013092041
+Agent:
+We offer a 15% discount for non-profit organizations and a 12% discount if you choose to prepay <DATE_TIME>.
+
+Sources: [kb.yaml#pricing_rules]
+
+
+Interactive Mode (type 'quit' to exit):
