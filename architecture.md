@@ -185,7 +185,7 @@ RETURN p.name, p.citation
 
 ### Model Architecture Trade-offs
 - **spaCy vs. Transformer Models**: spaCy chosen for speed and simplicity
-- **Production Alternative**: Fine-tuned small language model (SLM) for escalation detection
+- **Production Alternative**: Fine-tuned small language model (SLM) with agentic capabilities for escalation detection and automatic trigeering.
 - **Robustness**: Current model trained on limited synthetic data
 
 ### Context Management
